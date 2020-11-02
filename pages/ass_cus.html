@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width"/>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<meta content="yes" name="apple-mobile-web-app-capable" />
+		<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+		<meta content="telephone=no" name="format-detection" />
+        <title>分配客户</title>
+        
+        <link rel="stylesheet" href="../assets/css/re.css">
+        <link rel="stylesheet" href="../assets/css/vant.css">
+        <style>
+            .head{
+                padding-bottom: 0.2rem;
+            }
+            html, head, body ,.container{
+                background: #EEF1FA;
+            }
+
+            /* 当前tap激活页面 */
+            .active{
+                color: #fff !important;
+                background-color: #5291E0 !important;
+            }
+
+            /* 头部 */
+            .head_title{
+                padding-left: 0.3rem;
+            }
+
+            /* 待完成 */
+            .tap0{
+                padding-bottom: 1rem;
+            }
+
+            /* 待分配客服详情 */
+            .item:nth-child(n+2){
+                margin-top: 0.1rem;
+            }
+            .child p{
+                color: #000;
+                display: flex;
+            }
+            .child p span{
+                font-size: .2rem;
+                position: relative;
+            }
+            .child p span:nth-child(1){
+                width: 1.2rem;
+                font-weight: 700;
+                display: inline-block;
+                text-align-last: justify;
+                text-align: justify;
+            }
+            .child p span:nth-child(1)::after{
+                content: '';
+                font-size: 0;
+                display: inline-block;
+                width: 100%;
+            }
+            .child div.btn{
+                display: flex;
+                justify-content: space-around;
+            }
+            .child div.btn button{
+                padding: 0.2rem 0.25rem;
+                border-radius: 0.1rem;
+            }
+
+            /* 表格修改样式 */
+            .table{
+                margin: 0;
+            }
+            table{
+                width: 100%;
+                margin: 0;
+            }
+            table th ,table td{
+                font-size: 0.1rem;
+            }
+
+            /* 选项内容 */
+            .flex-item{
+                width: 100%;
+                display: flex;
+            }
+            .flex-item span{
+                flex: 1;
+            }
+
+            /* tab切换 */
+            .tabList{
+                height: 1rem;
+                position: fixed;
+                bottom: 0;
+                line-height: 1rem;
+                transform-origin: bottom left;
+            }
+            .tabList span{
+                height: 100%;
+                line-height: 1rem;
+                font-size: 0.38rem;
+            }
+
+            .tap1{
+                /* padding-bottom: calc(1em * 2.52  ); */
+                padding-bottom: calc(1em * 2 );
+            }
+
+            @media screen and (orientation: landscape) {
+                .head{
+                    height: 0.5rem;
+                }
+                .head_title {
+                    padding-left: 0.2rem;
+                }
+
+                table th ,table td{
+                    font-size: 0.08rem;
+                }
+
+                tap0{
+                    padding-bottom: .6rem;
+                }
+
+                .child p span{
+                    font-size: .16rem !important;
+                }
+                .child p span:nth-child(1){
+                    width: 1rem;
+                }
+                .child div button{
+                    padding: 0.17rem 0.15rem;
+                    border-radius: 0.16rem;
+                }
+
+                .tabList{
+                    height: 0.6rem;
+                }
+                .tabList span{
+                    line-height: 0.6rem;
+                    font-size: 0.2rem;
+                }
+
+                .tap1{
+                    padding-bottom: calc(0.6rem * 2.52  );
+                }
+            }
+        </style>
+
+        <script src="../assets/js/auto.js"></script>
+        <script src="../assets/js/tool.js"></script>
+        <script src="../assets/js/vue.js"></script>
+        <script src="../assets/js/vant.js"></script>
+        <script src="../assets/js/jquery-2.1.0.js"></script>
+        <script src="../assets/js/axios.js"></script>
+        <script src="../assets/js/request.js"></script>
+        <script src="../assets/js/json.js"></script>
+	</head>
+	<body style="background: #EEF1FA;">
+		<div id="app" class="container">
+
+            <div class="tap tap0" v-show='tap==0'>
+
+
+                <div class="head">
+                    <div class="head_title">待分配客户</div>
+                </div>
+
+                <van-list
+                    v-model="dr_loading"
+                    :finished="dr_finished"
+                    finished-text="没有更多了"
+                    :error.sync='dr_error'
+                    :error-text="dr_error_text"
+                    @load="dr_onLoad"
+                >
+                    <van-collapse class="box" v-model="activeShow" accordion>
+                        <van-collapse-item class="item" v-for="item in dr_list" :key ='item.id' :title="item.customerStatusDesc?item.customerStatusDesc: ' '" :value="item.orderNum">
+    
+                            <div class="child">
+
+                                <p>
+                                    <span>机构</span>：  
+                                    <span>{{item.organizationName}}</span>
+                                </p>
+                                <p>
+                                    <span>行员姓名</span>：  
+                                    <span>{{item.employeeName}}</span>
+                                </p>
+                                <p>
+                                    <span>所属分行</span>：  
+                                    <span>{{item.bankName}}</span>
+                                </p>
+                                <p>
+                                    <span>订单数量</span>：  
+                                    <span>{{item.orderNum}}</span>
+                                </p>
+                                <p>
+                                    <span>待跟进保额</span>：  
+                                    <span>{{item.amount}}</span>
+                                </p>
+                                <p>
+                                    <span>待跟进ANP</span>：  
+                                    <span>{{item.anp}}</span>
+                                </p>
+                                <div class="btn">
+
+                                    <button 
+                                        v-if ='isSelect(item.city ,item.bankName)' class ='blue' style="color: #fff;" 
+                                        v-on:click ='showMec = true;'>
+                                        立即分配机构
+                                    </button>
+
+                                    <button class ='blue' style="color: #fff;" 
+                                        v-on:click ='showSale = true;'>
+                                        立即分配销售
+                                    </button>
+
+                                </div>
+
+                            </div>
+    
+                        </van-collapse-item>
+    
+                    </van-collapse>
+                </van-list>
+                
+
+            </div>
+
+            <div class="tap tap1" v-show='tap==1'>
+
+                <div class="head">
+                    <div class="head_title">已分配客户</div>
+                </div>
+
+                <van-list
+                    v-model="ar_loading"
+                    :finished="ar_finished"
+                    finished-text="没有更多了"
+                    :error.sync='ar_error'
+                    :error-text="ar_error_text"
+                    @load="ar_onLoad"
+                >
+                    <div class="table" style="background: #EEF1FA">
+                        <table
+                            border="0" cellpadding="0" cellspacing="0" 
+                            style='border-collapse:collapse;table-layout:fixed; background: #fff;'>
+                            
+                            <thead>
+                                <tr>
+                                    <th class="blue">序号</th>
+                                    <th class="cyan">客户状态</th>
+                                    <th class="blue">机构</th>
+                                    <th class="blue">行员名称</th>
+                                    <th class="blue">所属分行</th>
+                                    <th class="yellow">待跟进订单</th>
+                                    <th class="yellow">待跟进保额（万）</th>
+                                    <th class="yellow">待跟进ANP（元）</th>
+                                    <th class="pink">待跟进人员</th>
+                                    <th class="orange">分配时间</th>
+                                </tr>
+                            </thead>
+        
+                            <tbody>
+                                <tr v-if ='ar_list.length >0' v-for ='(item, index) in ar_list' :key ='index'>
+                                    <td>{{index + 1}}</td>
+                                    <td>{{item.customerStatusDesc}}</td>
+                                    <td>{{item.organizationName}}</td>
+                                    <td>{{item.employeeName}}</td>
+                                    <td>{{item.bankName}}</td>
+                                    <td>{{item.orderNum}}</td>
+                                    <td>{{item.amount}}</td>
+                                    <td>{{item.anp}}</td>
+                                    <td>{{item.agentName?item.agentName:item.agentCode}}</td>
+                                    <td>{{item.updateDate}}</td>
+                                </tr>
+                            </tbody>
+        
+                        </table>
+                    </div>
+                </van-list>
+
+            </div>
+
+            <div class="tabList" style="width: 100vw;display: flex;">
+                <span :class='{active:tap==0}' style="width: 50%;text-align: center; background-color: #fff;" v-on:click ='toTap(0)'>待分配客户</span>
+                <span :class='{active:tap==1}' style="width: 50%;text-align: center; background-color: #fff;" v-on:click ='toTap(1)' @.once='alert(123)'>已分配客户</span>
+            </div>
+
+            <!-- 弹出层 -->
+            <van-popup v-model="showSale" @closed ='showSale = false' position="bottom">
+                        
+                <van-picker
+                    show-toolbar
+                    :columns="saleList"
+                    title ='工号 / 姓名 / 单量'
+                    @confirm='saleConfirm'
+                    @cancel ='showSale = false'
+                />
+                
+            </van-popup>
+
+            <!-- 选择机构以及城市 -->
+            <van-popup v-model="showMec" @closed ='showMec = false' position="bottom">
+                
+                <van-picker
+                    show-toolbar
+                    :columns="mesList"
+                    :title='"机构/城市"'
+                    @confirm='mecConfirm'
+                    @change='(picker ,values) =>{picker.setColumnValues(1 ,jsonWhere[ values[0] ] )}'
+                    @cancel="showMec = false"
+                />
+                
+            </van-popup>
+			
+        </div>
+        
+        <script src="../assets/js/page/ass_cus.js"></script>
+    </body>
+</html>
+
+

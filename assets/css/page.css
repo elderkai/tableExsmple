@@ -1,0 +1,154 @@
+html,
+body {
+	width: auto;
+	height: auto;
+	font-family: "Microsoft Yahei";
+	background: #fff;
+}
+
+html,
+body,
+div,
+p,
+span,
+ul,
+ol,
+li,
+button,
+input,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
+	padding: 0;
+	outline: none;
+	border: 0;
+}
+
+body {
+	-webkit-overflow-scrolling: touch;
+	overflow: scroll;
+}
+
+.container {
+	margin: .43rem .34rem .43rem 0;
+	background: rgba(255, 255, 255, 1);
+}
+
+/*banner*/
+.banner {
+	padding-top: .2rem;
+}
+
+.head_title {
+	font-size: .52rem;
+	font-family: Microsoft YaHei;
+	font-weight: bold;
+	color: rgba(68, 68, 68, 1);
+}
+
+.head_data {
+	font-size: .52rem;
+	font-family: Microsoft YaHei;
+	font-weight: 400;
+	color: rgba(153, 153, 153, 1);
+}
+
+/*表格*/
+table {
+	width: 18.83rem;
+	height: auto;
+	border-radius: 0rem;
+	margin-top: 0.38rem;
+	margin-right: 0.34rem;
+	overflow-x: scroll;
+	border-top-left-radius: 0.1rem;
+	border-top-right-radius: 0.1rem;
+}
+
+table th,
+table td {
+	font-weight: 400;
+	font-size: 0.23rem;
+	text-align: center;
+	color: rgba(68, 68, 68, 1);
+	font-family: Microsoft YaHei;
+	border: 1px solid rgba(229, 229, 229, 1);
+}
+
+table thead th {
+	color: #fff;
+	font-weight: bold;
+	padding: 0.1rem 0;
+}
+
+table thead tr.row_total {
+	background: rgba(48, 189, 247, .1);
+}
+
+table thead tr.row_total th {
+	color: #444;
+}
+
+table tbody tr.row_total {
+	font-weight: bold;
+	background: rgba(48, 189, 247, .1);
+}
+
+table tbody th,
+table tbody td {
+	padding-top: 0.15rem;
+	padding-bottom: 0.15rem;
+}
+
+table tbody tr.row_jg td:nth-child(1),
+table tbody tr.row_jg td:nth-child(2),
+table tbody tr.row_jg td:nth-child(3),
+table tbody tr.row_xj td:nth-child(1),
+table tbody tr.row_xj td:nth-child(2) {
+	font-weight: bold;
+}
+
+table tbody tr.row_xj td:nth-child(n+1),
+table tbody tr.row_jg td:nth-child(n+2) {
+	background: rgba(229, 229, 229, .61);
+}
+
+
+/* 颜色 */
+.blue {
+	background: rgba(82, 145, 224, 1);
+}
+
+.orange {
+	background: rgba(234, 93, 58, 1);
+}
+
+.cyan {
+	background: rgba(25, 184, 144, 1);
+}
+
+.firebrick {
+	background: rgba(183, 73, 95, 1);
+}
+
+.yellow {
+	background: rgba(202, 164, 83, 1);
+}
+
+.pink {
+	background: rgba(230, 77, 110, 1);
+}
+
+/* 特殊 */
+.important {
+	font-size: 0.2rem;
+	font-family: Arial;
+	color: rgba(233, 0, 0, 1) !important;
+}
+.bluelp{
+	color: rgba(82, 145, 224, 1) !important;
+}

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<meta content="yes" name="apple-mobile-web-app-capable" />
+		<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+		<meta content="telephone=no" name="format-detection" />
+        <title>职团报表需求汇总</title>
+        
+        <script src="../assets/js/tool.js"></script>
+        <script src="../assets/js/axios.js"></script>
+        <script src="../assets/js/request.js"></script>
+        <script src="../assets/js/jquery-2.1.0.js"></script>
+        <script src="../assets/js/vue.js"></script>
+
+        <link rel="stylesheet" href="../assets/css/re.css">
+
+        <style>
+            html, head, body ,.container{
+                background: #EEF1FA;
+            }
+            .head_title small{
+                display: block;
+                font-size: 0.3em;
+                margin-left: 0.2rem;
+            }
+            table{
+                min-width: 100%;
+                margin-right: 0;
+            }
+            table th ,table td{
+                font-size: 0.15rem;
+            }
+            table td span{
+                text-decoration: underline;
+                color: #E90000;
+                cursor: pointer;
+            }
+            table tr.row_total{
+                background:rgba(229,229,229,.2);
+            }
+            table tr.row_total th{
+                color: #444;
+            }
+
+            .msk1 .con{
+                width: 80%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50% ,-50%);
+                background: #fff;
+            } 
+            .tap{
+                width: 100%;
+                height: 0.6rem;
+                font-size: 0.15rem;
+                line-height: 0.6rem;
+                display: flex;
+                border-bottom: 1px solid rgba(229,229,229,1);
+            }
+            .tap span{
+                flex: 1;
+                text-align: center;
+                line-height: inherit;
+                color: #999999;
+                font-weight: 700;
+            }
+            .tap span.active{
+                background: #5291E0;
+                color: #fff;
+            }
+            .close{
+                width: 0.3rem;
+                height: 0.3rem;
+                position: absolute;
+                top: -0.5rem;
+                right: -0.5rem;
+                background: transparent;
+            }
+            .close::after{
+                content: '';
+                width: 100%;
+                height: 2px;
+                position: absolute;
+                top: 50%;
+                left: 0;
+                background: #fff;
+                transform: translateY(-50%) rotate(45deg);
+            }
+            .close::before{
+                content: '';
+                width: 100%;
+                height: 2px;
+                position: absolute;
+                top: 50%;
+                left: 0;
+                background: #fff;
+                transform: translateY(-50%) rotate(-45deg);
+            }
+            .box{
+                width: 90%;
+                margin: 0.3rem auto;
+                max-height: 3rem;
+                min-height: 3rem;
+                overflow-y: auto;
+            }
+            .box>div:nth-child(n+2){
+                margin-top: 0.3rem;
+            }
+            .box>div{
+                width: 100%;
+                border: 1px solid #E5E5E5;
+                overflow: hidden;
+                box-sizing: border-box;
+                border-radius: 0.1rem;
+            }
+            .box div p {
+                width: 100%;
+                padding: 0.1rem 0.3rem;
+                font-size: 0.15rem;
+            }
+            .box div p span{
+                margin-right: 0.3rem;
+                white-space: nowrap;
+            }
+            .box div p.xq_head {
+                border-bottom: 1px solid #e4e4e4;
+                background: rgba(229,229,229,.2);
+                font-weight: 700;
+            }
+            .box div.type2 p.xq_head span:nth-child(1) {
+                display: inline-block;
+                min-width: 50%;
+            }
+            
+            .phone table{
+                width: 19.3rem;
+            }
+            .phone .head{
+                height: .9rem;
+                padding-bottom: 0.6rem;
+            }
+            .phone .head_title{
+                font-size: 0.5rem;
+                /* position: relative; */
+            }
+            .phone .head_data{
+                font-size: 0.5rem;
+            }
+            .phone .head_title small{
+                font-size: 0.45em;
+                margin-left: 0.2rem;
+                /* position: absolute;
+                left: 0;
+                bottom: -0.35rem; */
+                white-space: nowrap;
+                margin-left: 0;
+            }
+            .xx{
+                display: none;
+                padding-bottom: 0.3rem;
+            }
+            .phone table td span{
+                font-size: 2.1em;
+            }
+            
+
+            @media screen and (orientation: landscape) {
+                .head{
+                    height: .4rem;
+                    padding-bottom: 0.2rem;
+                }
+                .head_title{
+                    font-size: 0.3rem;
+                    /* position: relative; */
+                }
+                .head_data{
+                    font-size: 0.2rem;
+                }
+                .head_title small{
+                    font-size: 0.8em;
+                    margin-left: 0.2rem;
+                    /* position: absolute;
+                    left: 0;
+                    bottom: -0.2rem; */
+                    white-space: nowrap;
+                    margin-left: 0;
+                }
+            }
+        </style>
+
+	</head>
+	<body>
+
+		<div id="app" class="container" style="font-size: 0;">
+
+			<div style="display: inline-block; background: #fff;" >
+                <div class="head" style="height: auto;padding-bottom: 0;">
+                    <div class="head_title"><span class="name">我的客户</span>
+                        <small>
+                            <template v-for=' ( v , k)  in tip'>
+                                {{k}}<span class="important">{{v}}</span>个&nbsp;
+                            </template>
+                        </small>
+                    </div>
+                    <div class="head_data">数据刷新时间：</div>
+                </div>
+
+                <table
+
+                    border="0" cellpadding="0" cellspacing="0" 
+                    style='border-collapse:collapse;table-layout:fixed; '>
+                    
+                    <thead>
+                        <tr>
+                            <th rowspan="2" class="blue">行员姓名</th>
+                            <th rowspan="2" class="yellow">是否预投保客户</th>
+                            <th rowspan="2" class="cyan">客户状态</th>
+                            <th rowspan="2" class="blue">机构</th>
+                            <th rowspan="2" class="blue">所属分行</th>
+                            <th rowspan="2" class="blue" style="width:7em">行员手机号</th>
+                            <th colspan="2" class="orange">未完成订单</th>
+                            <th colspan="2" class="firebrick">草稿箱</th>
+                            <th colspan="2" class="cyan">已完成订单</th>
+                        </tr>
+                        <tr>
+                            <th class="orange">件数</th>
+                            <th class="orange">ANP</th>
+                            <th class="firebrick">件数</th>
+                            <th class="firebrick">ANP</th>
+                            <th class="cyan">件数</th>
+                            <th class="cyan">ANP</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr v-for='item in list'>
+                            <td><span @click ='showDetails(item)'>{{item.employeeName}}</span></td>
+                            <td>{{item.isAppntFlag}}</td>
+                            <td>{{item.employeeStatus}}</td>
+                            <td>{{item.manageName}}</td>
+                            <td>{{item.firstBranch}}</td>
+                            <td>{{item.mobile}}</td>
+                            <td>{{item.unfinishOrder}}</td>
+                            <td>{{item.unfinishOrderAnp}}</td>
+                            <td>{{item.draftOrder}}</td>
+                            <td>{{item.draftOrderAnp}}</td>
+                            <td>{{item.finishOrder}}</td>
+                            <td>{{item.finishOrderAnp}}</td>
+                        </tr>  
+                        <tr class="row_total">
+                            <td>总计</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td>{{tol[0]}}</td>
+                            <td>{{tol[1]}}</td>
+                            <td>{{tol[2]}}</td>
+                            <td>{{tol[3]}}</td>
+                            <td>{{tol[4]}}</td>
+                            <td>{{tol[5]}}</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="msk1" style="position: fixed;top: 0;left: 0;bottom: 0;right: 0;background: rgba(34,34,34,.7);;"
+                :style='showMsk?"":"display:none"'>
+                <div class="con" style="position: a;">
+                    <button class="close" @click='showMsk = false'></button>
+                    <div class="tap">
+                        <span v-for='(k) in ["a","b","c","d"]' v-show='k in showList' :class='showTip==k?"active":""' @click ='showTip = k'>{{jsonTap[k]}}</span>
+                    </div>
+                    <div class="box">
+                        <!-- 模式一 -->
+                        <template v-if='showList.a && showTip=="a"' v-for='e in showList.a'>
+                            <div class='type1' >
+                                <p class="xq_head">
+                                    <span>{{e.productName}}</span>
+                                    <span>订单编号：{{e.orderNumber}}</span>
+                                    <span>订单状态：{{e.typeName}}</span>
+                                </p>
+                                <p class="xq_con">
+                                    <span>被保险人：{{e.insuredName}}</span>
+                                    <span>关系：{{relationship[e.relationToAppnt]}}</span>
+                                    <span>保额：{{e.insuredAmount}}</span>
+                                    <span>当前保费：{{e.currentPremium}}</span>
+                                    <span>ANP：{{e.anp}}</span>
+                                </p>
+                            </div>
+                        </template>
+
+                        <!-- 模式二 -->
+                        <template v-if='showList.b && showTip=="b"' v-for='e in showList.b'>
+                            <div class='type1'>
+                                <p class="xq_head">
+                                    <span>{{e.productName}}</span>
+                                    <span>订单编号：{{e.orderNumber}}</span>
+                                </p>
+                                <p class="xq_con">
+                                    <span>被保险人：{{e.insuredName}}</span>
+                                    <span>关系：{{relationship[e.relationToAppnt]}}</span>
+                                    <span>保额：{{e.insuredAmount}}</span>
+                                    <span>当前保费：{{e.currentPremium}}</span>
+                                    <span>ANP：{{e.anp}}</span>
+                                </p>
+                            </div>
+                        </template>
+
+                        <!-- 模式三 -->
+                        <template v-if='showList.c && showTip=="c"' v-for='e in showList.c'>
+                            <div class='type1'>
+                                <p class="xq_head">
+                                    <span>{{e.productName}}</span>
+                                    <span>订单编号：{{e.orderNumber}}</span>
+                                </p>
+                                <p class="xq_con">
+                                    <span>被保险人：{{e.insuredName}}</span>
+                                    <span>关系：{{relationship[e.relationToAppnt]}}</span>
+                                    <span>保额：{{e.insuredAmount}}</span>
+                                    <span>当前保费：{{e.currentPremium}}</span>
+                                    <span>ANP：{{e.anp}}</span>
+                                </p>    
+                            </div>
+                        </template>
+                        
+                        <!-- 模式四 -->
+                        <template v-if='showList.d && showTip=="d"' v-for='e in showList.d'>
+                            <div class='type2' v-if=' /登录/.test( e.productName ) '>
+                                <p class="xq_head">
+                                    <span>{{e.productName}}</span>
+                                </p>
+                                <p class="xq_con">
+                                    <span>最后登录时间：{{e.appletsLoginTime}}</span>
+                                </p>
+                            </div>
+                            <div class='type2' v-else>
+                                <p class="xq_head">
+                                    <span>{{e.productName}}</span>
+                                    <span>产品详情页浏览时间：{{e.scanProductDetailTime}}</span>
+                                </p>
+                                <p class="xq_con">
+                                    <span>是否进行保费测算：{{e.prem ? '是' : '否'}}</span>
+                                    <span>测算保额：{{e.amount}}</span>
+                                    <span v-show='e.prem'>测算保费：{{e.prem}}</span>
+                                    <span v-show='e.prem'>保费测算时间：{{e.quoteTime}}</span>
+                                    <span>是否进入个人信息填写：{{e.fillInTime ? '是' : '否'}}</span>
+                                    <span v-show='e.fillInTim'>个人信息填写时间：{{e.fillInTime}}</span>
+                                </p>
+                            </div>
+                        </template>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <script src="../assets/js/setRem.js"></script>
+        <script src="../assets/js/page/my_cus.js"></script>
+	</body>
+</html>

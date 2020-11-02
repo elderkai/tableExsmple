@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+  <meta content="telephone=no" name="format-detection" />
+  <title>每日ANP变化_开放期</title>
+
+  <link rel="stylesheet" href="../assets/css/re.css">
+  <style>
+    /* 重置样式 */
+    table {
+      margin: 0;
+    }
+
+    table th,
+    table td {
+      white-space: nowrap;
+    }
+
+    .row_xj td {
+      background: rgba(229, 229, 229, .61) !important;
+    }
+
+  </style>
+  <style>
+    /* pc端样式 */
+
+    /* 表格总体 */
+    .table {
+      /* height: calc(100vh - 1.6rem); */
+      /* overflow-y: auto; */
+      margin-top: 0.3rem;
+    }
+
+    table tr th,
+    table tr td {
+      font-size: 0.23rem;
+      padding: 0;
+    }
+
+    /* 表格所有tr设置 */
+    table thead tr:nth-child(1) {
+      height: 0.49rem;
+    }
+
+    table thead tr:nth-child(2) {
+      height: 0.49rem;
+    }
+
+    table thead tr:nth-child(3) {
+      height: 0.5rem;
+    }
+
+    table tbody tr {
+      height: 0.5rem;
+    }
+
+    /* 表格固定头列 */
+    table.table_head_g {
+      width: 4.9rem;
+      border-top-right-radius: 0;
+      float: left;
+    }
+
+    /* 表格滑动列 */
+    .table div.slide {
+      width: calc(100% - 4.9rem - 1.95rem);
+      margin-left: -2px;
+      overflow: hidden;
+      float: left;
+    }
+
+    table.table_con_s {
+      min-width: 100%;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    table.table_con_s tr.row_xj td:nth-child(1) {
+      font-weight: normal;
+    }
+
+    span.title {
+      z-index: 999;
+      font-size: 0.23rem;
+      font-weight: 700;
+      position: absolute;
+      color: #fff;
+      top: 0.08rem;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    /* 滑动条 */
+    .slide_box {
+      display: none;
+      width: calc(100% - 4.9rem - 2.6rem);
+      height: 0.2rem;
+      border-radius: 0.05rem;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.3);
+      position: fixed;
+      z-index: 100;
+      top: calc(100vh - .5rem);
+      left: 5.1rem;
+    }
+
+    .slide_box span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      border-radius: 0.05rem;
+      background: rgba(0, 0, 0, 0.6);
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .table .slideBox {
+      overflow: hidden;
+    }
+
+
+    /* 表格固定尾列 */
+    table.table_sw_g {
+      z-index: 999;
+      width: 1.95rem;
+      margin-left: -1px;
+      border-top-left-radius: 0;
+      box-shadow: -3px 0 6px rgba(0, 0, 0, 0.6);
+      float: left;
+      position: relative;
+    }
+
+  </style>
+  <style>
+    /* 手机端 */
+
+    /* 标题 */
+    .phone .head {
+      height: auto;
+      display: block;
+      padding-top: 0.6rem;
+    }
+
+    .phone .head_title {
+      font-size: 0.52rem;
+    }
+
+    .phone .head_data {
+      font-size: 0.52rem;
+      margin-top: 0.2rem;
+    }
+
+    /* 表格 */
+    .phone .table {
+      height: calc(100vh - 4.9rem);
+      overflow-y: auto;
+      margin-top: 0.8rem;
+    }
+
+    .phone .table .slideBox {
+      overflow-x: scroll;
+    }
+
+    .phone table th,
+    .phone table td {
+      font-size: 0.3rem;
+    }
+
+
+    .phone .table div.slide {
+      width: calc(100% - 9rem - 3.9rem);
+    }
+
+    .phone table.table_head_g {
+      width: 9rem;
+    }
+
+    .phone table.table_sw_g {
+      width: 3.9rem;
+    }
+
+    .phone table thead tr:nth-child(1) {
+      height: 0.9rem;
+    }
+
+    .phone table thead tr:nth-child(2) {
+      height: 0.9rem;
+    }
+
+    .phone table thead tr:nth-child(3) {
+      height: 1.2rem;
+    }
+
+    .phone table tbody tr {
+      height: 1.2rem;
+    }
+
+    .phone table.table_con_s th,
+    .phone table.table_con_s td {
+      width: 12rem;
+      white-space: nowrap;
+    }
+
+    .phone span.title {
+      font-size: 0.3rem;
+      top: 0.2rem;
+    }
+
+    /* 手机横屏 */
+    @media screen and (orientation: landscape) {
+      .phone .head {
+        /* display: flex; */
+        padding-top: 0.3rem;
+      }
+
+      .phone .head_title {
+        font-size: 0.5rem;
+      }
+
+      .phone .head_data {
+        font-size: 0.39rem;
+        margin-top: 0.2rem;
+      }
+
+
+      .phone .table {
+        height: calc(100vh - 1.8rem);
+        overflow-y: auto;
+        margin-top: 0.2rem;
+      }
+
+      .phone table th,
+      .phone table td {
+        font-size: 0.18rem;
+      }
+
+
+
+      .phone table.table_head_g {
+        width: 5rem;
+      }
+
+      .phone .table div.slide {
+        width: calc(100% - 5rem - 2rem);
+      }
+
+      .phone table.table_sw_g {
+        width: 2rem;
+      }
+
+      .phone table thead tr:nth-child(1) {
+        height: 0.6rem;
+      }
+
+      .phone table thead tr:nth-child(2) {
+        height: 0.6rem;
+      }
+
+      .phone table thead tr:nth-child(3) {
+        height: 0.8rem;
+      }
+
+      .phone table tbody tr {
+        height: 0.8rem;
+      }
+
+      .phone span.title {
+        font-size: 0.18rem;
+        top: 0.15rem;
+      }
+    }
+
+  </style>
+
+  <script src="../assets/js/axios.js"></script>
+  <script src="../assets/js/request.js"></script>
+  <script src="../assets/js/jquery-2.1.0.js"></script>
+  <script src="../assets/js/tool.js"></script>
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="head">
+      <div class="head_title">每日ANP变化_开放期</div>
+      <div class="head_data">数据刷新时间：</div>
+    </div>
+
+    <div class="table">
+      <!-- 前列固定 -->
+      <table border="0" cellpadding="0" cellspacing="0" class="table_head_g"
+        style='border-collapse:collapse;table-layout:fixed; '>
+
+        <thead>
+          <tr>
+            <th rowspan="2" class="blue">机构类别</th>
+            <th rowspan="2" class="blue">机构</th>
+            <th rowspan="2" class="blue">分行</th>
+          </tr>
+          <tr></tr>
+        </thead>
+
+        <tbody></tbody>
+
+      </table>
+
+      <div class="slide" style="position: relative;">
+        <span class="title" style="z-index:999;font-szie:1em;">初选ANP(万)</span>
+        <div class="slideBox" style="width: 100%;">
+          <!-- 滑动页 -->
+          <table border="0" cellpadding="0" cellspacing="0" class="table_con_s"
+            style='border-collapse:collapse;table-layout:fixed; width: auto;'>
+
+            <colgroup span="15" width='60rem'></colgroup>
+            <thead>
+              <tr class="pink">
+                <th rowspan="2"></th>
+              </tr>
+              <tr></tr>
+            </thead>
+
+            <tbody></tbody>
+
+          </table>
+        </div>
+      </div>
+
+      <!-- 尾部固定列 -->
+      <table border="0" cellpadding="0" cellspacing="0" class="table_sw_g"
+        style='border-collapse:collapse;table-layout:fixed; '>
+        <thead>
+          <tr class="yellow">
+            <th rowspan="2">总计</th>
+          </tr>
+          <tr></tr>
+        </thead>
+
+        <tbody></tbody>
+      </table>
+
+
+      <!-- 中间滑动条 -->
+      <div class="slide_box">
+        <span class="press"></span>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/setRem.js"></script>
+  <script src="../assets/js/page/7.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>待分配客户表</title>
+		<link rel="stylesheet" href="../lib/layui/css/layui.css">
+		<style>
+			.row {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+		</style>
+		<style>
+			th,td{
+				text-align: center !important;
+			}
+			html,body{
+				height: 100%;
+				overflow-y: auto;
+			}
+		</style>
+
+		<script src="../assets/js/axios.js"></script>
+		<script src="../assets/js/request.js"></script>
+		<script src="../assets/js/tool.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<form class="layui-form" action="">
+				<table class="layui-hide"  id="test">
+				</table>
+
+				<div style="text-align: center;">
+					<div class="layui-inline">
+						<select id="saleList" class="" lay-verify="" lay-filter='saleList' lay-search></select>
+					</div>
+				</div>
+			</form>
+
+			<div style="text-align: center;margin-top: 10px;">
+				<button id="post" type="button" class="layui-btn">确认分配</button>
+			</div>
+		</div>
+		
+		<script src="../assets/js/jquery-2.1.0.js"></script>
+		<script src="../lib/layui/layui.js"></script>
+		<script src="../assets/js/page/15.2.js"></script>
+
+	</body>
+</html>
